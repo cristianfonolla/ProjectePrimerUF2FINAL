@@ -5,13 +5,11 @@
  */
 package ClasseProjecte;
 
-import java.io.Serializable;
-
 /**
  *
  * @author cristian
  */
-public class PersonatgesWow implements Serializable {
+public class PersonatgesWowCopiaSeguretat {
 
     private String nom;
     private int nivell;
@@ -19,14 +17,10 @@ public class PersonatgesWow implements Serializable {
     private boolean esHorda = true;
     private boolean omplit = false;
 
-    public PersonatgesWow() {
+    public PersonatgesWowCopiaSeguretat() {
     }
 
-    public PersonatgesWow(String nom) {
-        this.nom = nom;
-    }
-
-    public PersonatgesWow(String nom, int nivell, String raça) {
+    public PersonatgesWowCopiaSeguretat(String nom, int nivell, String raça) {
         this.nom = nom;
         this.nivell = nivell;
         this.raça = raça;

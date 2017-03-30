@@ -6,6 +6,7 @@
 package projecteprimeruf2final;
 
 import ClasseProjecte.PersonatgesWow;
+import java.io.File;
 import java.util.Scanner;
 
 /**
@@ -18,58 +19,20 @@ public class ProjectePrimerUF2FINAL {
 
     private static PersonatgesWow[] array = new PersonatgesWow[MAXPERSONATGES];
 
+    private static int opcio = 0;
+
+    File f = new File("personatgesWow");
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
 
-        Scanner ent = new Scanner(System.in);
-        int opcio;
-        PersonatgesWow p = null;
-
-        for (int i = 0; i < array.length; i++) {
-            array[i] = new PersonatgesWow();
-            array[i].setOmplit(false);
-        }
-
+        inicialitzarVariables();
         do {
-
-            System.out.println("\n\nMenú de l'aplicació.");
-            System.out.println("0. Sortir.");
-            System.out.println("1. Introduïr personatge.");
-            System.out.println("2. Modificar personatge.");
-            System.out.println("3. Borrar personatge.");
-            System.out.println("4. Llistar personatge.");
-            System.out.println("5. Recuperar personatge borrat.");
-            switch (opcio = ent.skip("[\r\n]*").nextInt()) {
-                case 0:                             //0. Sortir
-                    System.out.println("Adéu!!");
-                    break;
-                case 1:
-
-                    introduirPersonatge();
-
-                    break;
-
-                case 2:
-                    modificarPersonatge();
-                    break;
-
-                case 3:
-
-                    borrarPersonatges();
-                    break;
-                case 4:
-                    llistarPersonatges();
-                    break;
-                case 5:
-                    recuperarPersonatge();
-                    break;
-
-                default:
-                    System.out.println("\nOpció incorrecta!!");
-            }
-        } while (opcio != 0);
+            demanarOpcio();
+            tractarOpcio();
+        } while (!opcioFinal());
 
     }
 
@@ -279,6 +242,82 @@ public class ProjectePrimerUF2FINAL {
         } else {
             System.out.println("Pilot no recuperat.");
         }
+    }
+
+    private static void inicialitzarVariables() {
+
+        PersonatgesWow p = null;
+
+        for (int i = 0; i < array.length; i++) {
+            array[i] = new PersonatgesWow();
+            array[i].setOmplit(false);
+        }
+    }
+
+    private static boolean opcioFinal() {
+        return opcio == 0;
+    }
+
+    private static void tractarOpcio() {
+        switch (opcio) {
+            case 0:                             //0. Sortir
+                System.out.println("Adeu!");
+                break;
+            case 1:
+
+                introduirPersonatge();
+
+                break;
+
+            case 2:
+                modificarPersonatge();
+                break;
+
+            case 3:
+
+                borrarPersonatges();
+                break;
+            case 4:
+                llistarPersonatges();
+                break;
+            case 5:
+                recuperarPersonatge();
+                break;
+
+            default:
+                System.out.println("\nOpció incorrecta!!");
+        }
+    }
+
+    private static void demanarOpcio() {
+        Scanner ent = new Scanner(System.in);
+
+        do {
+
+            System.out.println("\n\nMenú de l'aplicació.");
+            System.out.println("0. Sortir.");
+            System.out.println("1. Introduïr personatge.");
+            System.out.println("2. Modificar personatge.");
+            System.out.println("3. Borrar personatge.");
+            System.out.println("4. Llistar personatge.");
+            System.out.println("5. Recuperar personatge borrat.");
+
+            try {
+                opcio = ent.nextInt();
+                break;
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("Opció incorrecta!!");
+                //Molt important posar el next per evitar bucle infinit
+                ent.next();
+                continue;
+            }
+
+        } while (true);
+
+    }
+
+    private static void acabar() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
