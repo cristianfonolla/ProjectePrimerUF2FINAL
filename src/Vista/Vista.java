@@ -7,6 +7,7 @@ package Vista;
 
 import ClasseProjecte.PersonatgesWow;
 import static Vista.GUI_UF3.transformaDades;
+import javax.swing.JOptionPane;
 import projecteprimeruf2final.ProjectePrimerFile;
 
 /**
@@ -158,7 +159,7 @@ public class Vista extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -230,35 +231,58 @@ public class Vista extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-
+        //Crear Personatges Wow
         int i;
 
         for (i = 0; i < array.length && array[i].isOmplit(); i++);
 
         if (i < array.length) {
 
-            array[i].setNom(jTextField1.getText());
+            /*
+            Variable de permis per crear
+                1 - Permis per crear
+                2 - Sense permis per crear
+             */
+            int permis = 1;
 
-            try {
-                array[i].setNivell(Integer.valueOf(jTextField2.getText()));
-            } catch (Exception e) {
-
+            if (jTextField1.getText().equals("") || jTextField2.getText().equals("") || jTextField3.getText().equals("")) {
+                permis = 0;
             }
 
-            array[i].setRaça(jTextField3.getText());
+            if (permis == 1) {
 
-            if (jRadioButton1.isSelected()) {
-                array[i].setEsHorda(true);
-            } else if (jRadioButton2.isSelected()) {
-                array[i].setEsHorda(false);
+                try {
+
+                    array[i].setNivell(Integer.valueOf(jTextField2.getText()));
+
+                    array[i].setNom(jTextField1.getText());
+
+                    array[i].setRaça(jTextField3.getText());
+
+                    if (jRadioButton1.isSelected()) {
+                        array[i].setEsHorda(true);
+                    } else if (jRadioButton2.isSelected()) {
+                        array[i].setEsHorda(false);
+                    }
+
+                    array[i].setOmplit(true);
+
+                } catch (java.lang.NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Has introduit un nivell incorrecte, "
+                            + "introdueix-ne un de correcte (número enter positiu)");
+                }
+
+                llimpiarCamps();
+
+                jButton1.setEnabled(false);
+                jButton3.setEnabled(false);
+
+                GUI_UF3.carregaTaula(new String[]{"Fila", "Nom", "Nivell", "Raça", "Horda"},
+                        transformaDades(array), taula);
+            } else if (permis == 0) {
+                JOptionPane.showMessageDialog(null, "Has de introduir tots els camps del Personatge "
+                        + "que vols crear");
             }
-
-            array[i].setOmplit(true);
-
-            llimpiarCamps();
-
-            GUI_UF3.carregaTaula(new String[]{"Fila", "Nom", "Nivell", "Raça", "Horda"},
-                    transformaDades(array), taula);
 
         } else {
 
@@ -268,9 +292,23 @@ public class Vista extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        //Borrar
+        filasel = taula.getSelectedRow();
 
-        array[(int) taula.getValueAt(filasel, taula.getColumnCount() - 5)].setOmplit(false);
+        if (filasel != -1) {
+
+            try {
+                array[(int) taula.getValueAt(filasel, taula.getColumnCount() - 5)].setOmplit(false);
+            } catch (Exception e) {
+                System.err.println("UNEXPECTED ERROR, contacta.");
+            }
+
+        }
+
         llimpiarCamps();
+
+        jButton1.setEnabled(false);
+        jButton3.setEnabled(false);
 
         GUI_UF3.carregaTaula(new String[]{"Fila", "Nom", "Nivell", "Raça", "Horda"},
                 transformaDades(array), taula);
@@ -279,22 +317,45 @@ public class Vista extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        //Modificar
 
-        PersonatgesWow p = array[(int) taula.getValueAt(filasel, taula.getColumnCount() - 5)];
+        filasel = taula.getSelectedRow();
 
-        p.setNom(jTextField1.getText());
-        p.setNivell(Integer.valueOf(jTextField2.getText()));
-        p.setRaça(jTextField3.getText());
+        if (filasel != -1) {
 
-        if (jRadioButton1.isSelected()) {
-            p.setEsHorda(true);
-        } else if (jRadioButton2.isSelected()) {
-            p.setEsHorda(false);
+            try {
+                PersonatgesWow p = array[(int) taula.getValueAt(filasel, taula.getColumnCount() - 5)];
+
+                p.setNivell(Integer.valueOf(jTextField2.getText()));
+
+                p.setNom(jTextField1.getText());
+
+                p.setRaça(jTextField3.getText());
+
+                if (jRadioButton1.isSelected()) {
+                    p.setEsHorda(true);
+                } else if (jRadioButton2.isSelected()) {
+                    p.setEsHorda(false);
+                }
+
+            } catch (java.lang.NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Has de introduir tots els camps del Personatge "
+                        + "que vols crear");
+            }
+
+            llimpiarCamps();
+
+            jButton1.setEnabled(false);
+            jButton3.setEnabled(false);
+
+            GUI_UF3.carregaTaula(new String[]{"Fila", "Nom", "Nivell", "Raça", "Horda"},
+                    transformaDades(array), taula);
+
+        } else {
+
+            JOptionPane.showMessageDialog(null, "Selecciona un Personatge per modificar-lo");
+
         }
-        llimpiarCamps();
-
-        GUI_UF3.carregaTaula(new String[]{"Fila", "Nom", "Nivell", "Raça", "Horda"},
-                transformaDades(array), taula);
 
 
     }//GEN-LAST:event_jButton1ActionPerformed
