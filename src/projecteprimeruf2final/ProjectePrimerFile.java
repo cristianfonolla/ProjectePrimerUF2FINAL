@@ -382,7 +382,7 @@ public class ProjectePrimerFile {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private static void finalitzar() {
+    public static void finalitzar() {
         //Obrim el fitxer per escriptura
         ObjectOutputStream escriptura = null;
         try {

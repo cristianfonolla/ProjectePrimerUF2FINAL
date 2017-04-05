@@ -5,6 +5,7 @@
  */
 package Vista;
 
+import ClasseProjecte.PersonatgesWow;
 import static Vista.GUI_UF3.transformaDades;
 import projecteprimeruf2final.ProjectePrimerFile;
 
@@ -15,6 +16,7 @@ import projecteprimeruf2final.ProjectePrimerFile;
 public class Vista extends javax.swing.JFrame {
 
     int filasel = -1;
+    PersonatgesWow[] array = ProjectePrimerFile.getArray();
 
     /**
      * Creates new form Vista
@@ -71,10 +73,25 @@ public class Vista extends javax.swing.JFrame {
         jScrollPane1.setViewportView(taula);
 
         jButton1.setText("Modificar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Crear");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Eliminar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Nom:");
 
@@ -206,8 +223,81 @@ public class Vista extends javax.swing.JFrame {
     }//GEN-LAST:event_taulaMouseClicked
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+
+        ProjectePrimerFile.finalitzar();
         System.exit(0);
+
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+        int i;
+
+        for (i = 0; i < array.length && array[i].isOmplit(); i++);
+
+        if (i < array.length) {
+
+            array[i].setNom(jTextField1.getText());
+
+            try {
+                array[i].setNivell(Integer.valueOf(jTextField2.getText()));
+            } catch (Exception e) {
+
+            }
+
+            array[i].setRaça(jTextField3.getText());
+
+            if (jRadioButton1.isSelected()) {
+                array[i].setEsHorda(true);
+            } else if (jRadioButton2.isSelected()) {
+                array[i].setEsHorda(false);
+            }
+
+            array[i].setOmplit(true);
+
+            llimpiarCamps();
+
+            GUI_UF3.carregaTaula(new String[]{"Fila", "Nom", "Nivell", "Raça", "Horda"},
+                    transformaDades(array), taula);
+
+        } else {
+
+        }
+
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+
+        array[(int) taula.getValueAt(filasel, taula.getColumnCount() - 5)].setOmplit(false);
+        llimpiarCamps();
+
+        GUI_UF3.carregaTaula(new String[]{"Fila", "Nom", "Nivell", "Raça", "Horda"},
+                transformaDades(array), taula);
+
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        PersonatgesWow p = array[(int) taula.getValueAt(filasel, taula.getColumnCount() - 5)];
+
+        p.setNom(jTextField1.getText());
+        p.setNivell(Integer.valueOf(jTextField2.getText()));
+        p.setRaça(jTextField3.getText());
+
+        if (jRadioButton1.isSelected()) {
+            p.setEsHorda(true);
+        } else if (jRadioButton2.isSelected()) {
+            p.setEsHorda(false);
+        }
+        llimpiarCamps();
+
+        GUI_UF3.carregaTaula(new String[]{"Fila", "Nom", "Nivell", "Raça", "Horda"},
+                transformaDades(array), taula);
+
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void initComponentsMeu() {
         ProjectePrimerFile.inicialitzarVariables();
@@ -274,5 +364,11 @@ public class Vista extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTable taula;
     // End of variables declaration//GEN-END:variables
+
+    private void llimpiarCamps() {
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+    }
 
 }
