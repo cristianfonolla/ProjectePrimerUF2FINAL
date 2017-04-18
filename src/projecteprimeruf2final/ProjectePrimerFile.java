@@ -22,7 +22,7 @@ import java.util.Scanner;
  */
 public class ProjectePrimerFile {
 
-    public static final int MAXPERSONATGES = 2000;
+    public static final int MAXPERSONATGES = 1;
 
     private static PersonatgesWow[] array = new PersonatgesWow[MAXPERSONATGES];
 

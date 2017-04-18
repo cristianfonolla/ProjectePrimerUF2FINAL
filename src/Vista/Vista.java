@@ -7,6 +7,8 @@ package Vista;
 
 import ClasseProjecte.PersonatgesWow;
 import static Vista.GUI_UF3.transformaDades;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import projecteprimeruf2final.ProjectePrimerFile;
 
@@ -17,7 +19,11 @@ import projecteprimeruf2final.ProjectePrimerFile;
 public class Vista extends javax.swing.JFrame {
 
     int filasel = -1;
-    PersonatgesWow[] array = ProjectePrimerFile.getArray();
+    int j;
+    static PersonatgesWow[] array = ProjectePrimerFile.getArray();
+    PersonatgesWow[] arrayBorrat = new PersonatgesWow[ProjectePrimerFile.MAXPERSONATGES];
+    int indexBorrat = -1;
+    int ultimaPosicio;
 
     /**
      * Creates new form Vista
@@ -52,6 +58,9 @@ public class Vista extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
+        jLabel5 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -115,6 +124,17 @@ public class Vista extends javax.swing.JFrame {
         buttonGroup1.add(jRadioButton2);
         jRadioButton2.setText("És Aliança");
 
+        jLabel5.setText("Recuperar Personatge Borrat:");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jButton5.setText("Recuperar");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -125,6 +145,18 @@ public class Vista extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 680, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(18, 18, 18)
+                                .addComponent(jRadioButton1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jRadioButton2)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton5))
+                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -144,14 +176,7 @@ public class Vista extends javax.swing.JFrame {
                                 .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(18, 18, 18)
-                        .addComponent(jRadioButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jRadioButton2)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -175,7 +200,13 @@ public class Vista extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(jRadioButton1)
                     .addComponent(jRadioButton2))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jButton5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton3)
@@ -270,6 +301,8 @@ public class Vista extends javax.swing.JFrame {
                 } catch (java.lang.NumberFormatException e) {
                     JOptionPane.showMessageDialog(null, "Has introduit un nivell incorrecte, "
                             + "introdueix-ne un de correcte (número enter positiu)");
+                } catch (ArrayIndexOutOfBoundsException ex) {
+                    JOptionPane.showMessageDialog(null, "Borra primer el Personatge creat, o augmenta l'array");
                 }
 
                 jButton1.setEnabled(false);
@@ -283,7 +316,7 @@ public class Vista extends javax.swing.JFrame {
             }
 
         } else {
-
+            JOptionPane.showMessageDialog(null, "Borra primer el Personatge creat, o augmenta l'array");
         }
 
 
@@ -298,18 +331,27 @@ public class Vista extends javax.swing.JFrame {
         if (filasel != -1) {
 
             try {
+
+                arrayBorrat[++indexBorrat] = array[persSel];
+
                 array[persSel].setOmplit(false);
 
                 for (int i = persSel; i < array.length - 1; i++) {
                     array[i] = array[i + 1];
-
                 }
 
-            } catch (Exception e) {
+                plenarComboBox();
+
+            } catch (NumberFormatException e) {
                 System.err.println("UNEXPECTED ERROR." + e.getMessage());
 
             }
 
+        }
+
+        if (indexBorrat != -1) {
+            jButton5.setEnabled(true);
+            jComboBox1.setEnabled(true);
         }
 
         llimpiarCamps();
@@ -367,14 +409,61 @@ public class Vista extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+
+        try {
+            int i;
+
+            for (i = 0; i < array.length && array[i].isOmplit(); i++);
+
+            PersonatgesWow p = (PersonatgesWow) jComboBox1.getSelectedItem();
+            p.setOmplit(true);
+            array[i] = p;
+
+            for (int k = jComboBox1.getSelectedIndex(); k < arrayBorrat.length - 1; k++) {
+
+                arrayBorrat[k] = arrayBorrat[k + 1];
+
+            }
+
+            indexBorrat--;
+
+            if (indexBorrat == -1) {
+                jButton5.setEnabled(false);
+                jComboBox1.setEnabled(false);
+            }
+
+            plenarComboBox();
+
+            GUI_UF3.carregaTaula(new String[]{"Fila", "Nom", "Nivell", "Raça", "Horda"},
+                    transformaDades(array), taula);
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            JOptionPane.showMessageDialog(null, "Borra primer el Personatge creat, o augmenta l'array");
+        }
+
+
+    }//GEN-LAST:event_jButton5ActionPerformed
+
     private void initComponentsMeu() {
         ProjectePrimerFile.inicialitzarVariables();
 
         GUI_UF3.carregaTaula(new String[]{"Fila", "Nom", "Nivell", "Raça", "Horda"},
                 transformaDades(ProjectePrimerFile.getArray()), taula);
 
+        int i = 0;
+        for (; i < arrayBorrat.length; i++) {
+            arrayBorrat[i] = new PersonatgesWow();
+            arrayBorrat[i].setOmplit(false);
+        }
+
+        plenarComboBox();
+
+        ultimaPosicio = ultimaPosicioOcupada();
+
         jRadioButton1.setSelected(true);
         jButton1.setEnabled(false);
+        jButton5.setEnabled(false);
+        jComboBox1.setEnabled(false);
         jButton3.setEnabled(false);
 
     }
@@ -420,10 +509,13 @@ public class Vista extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -437,6 +529,29 @@ public class Vista extends javax.swing.JFrame {
         jTextField1.setText("");
         jTextField2.setText("");
         jTextField3.setText("");
+    }
+
+    private void plenarComboBox() {
+
+        PersonatgesWow[] ap = new PersonatgesWow[indexBorrat + 1];
+
+        for (int i = 0; i <= indexBorrat; i++) {
+            ap[i] = arrayBorrat[i];
+
+        }
+
+        jComboBox1.setModel(new DefaultComboBoxModel((ap != null ? ap : new Object[]{})));
+
+    }
+
+    public static int ultimaPosicioOcupada() {
+
+        int i;
+
+        for (i = 0; i < array.length && array[i].isOmplit(); i++);
+
+        return i;
+
     }
 
 }
