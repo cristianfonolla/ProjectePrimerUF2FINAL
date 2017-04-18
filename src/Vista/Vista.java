@@ -241,7 +241,7 @@ public class Vista extends javax.swing.JFrame {
             /*
             Variable de permis per crear
                 1 - Permis per crear
-                2 - Sense permis per crear
+                0 - Sense permis per crear
              */
             int permis = 1;
 
@@ -253,11 +253,11 @@ public class Vista extends javax.swing.JFrame {
 
                 try {
 
-                    array[i].setNivell(Integer.valueOf(jTextField2.getText()));
+                    array[i].setNivell(Integer.valueOf(jTextField2.getText().trim()));
 
-                    array[i].setNom(jTextField1.getText());
+                    array[i].setNom(jTextField1.getText().trim());
 
-                    array[i].setRaça(jTextField3.getText());
+                    array[i].setRaça(jTextField3.getText().trim());
 
                     if (jRadioButton1.isSelected()) {
                         array[i].setEsHorda(true);
@@ -266,13 +266,11 @@ public class Vista extends javax.swing.JFrame {
                     }
 
                     array[i].setOmplit(true);
-
+                    llimpiarCamps();
                 } catch (java.lang.NumberFormatException e) {
                     JOptionPane.showMessageDialog(null, "Has introduit un nivell incorrecte, "
                             + "introdueix-ne un de correcte (número enter positiu)");
                 }
-
-                llimpiarCamps();
 
                 jButton1.setEnabled(false);
                 jButton3.setEnabled(false);
@@ -295,12 +293,21 @@ public class Vista extends javax.swing.JFrame {
         //Borrar
         filasel = taula.getSelectedRow();
 
+        int persSel = (int) taula.getValueAt(filasel, taula.getColumnCount() - 5);
+
         if (filasel != -1) {
 
             try {
-                array[(int) taula.getValueAt(filasel, taula.getColumnCount() - 5)].setOmplit(false);
+                array[persSel].setOmplit(false);
+
+                for (int i = persSel; i < array.length - 1; i++) {
+                    array[i] = array[i + 1];
+
+                }
+
             } catch (Exception e) {
-                System.err.println("UNEXPECTED ERROR, contacta.");
+                System.err.println("UNEXPECTED ERROR." + e.getMessage());
+
             }
 
         }
@@ -326,11 +333,11 @@ public class Vista extends javax.swing.JFrame {
             try {
                 PersonatgesWow p = array[(int) taula.getValueAt(filasel, taula.getColumnCount() - 5)];
 
-                p.setNivell(Integer.valueOf(jTextField2.getText()));
+                p.setNivell(Integer.valueOf(jTextField2.getText().trim()));
 
-                p.setNom(jTextField1.getText());
+                p.setNom(jTextField1.getText().trim());
 
-                p.setRaça(jTextField3.getText());
+                p.setRaça(jTextField3.getText().trim());
 
                 if (jRadioButton1.isSelected()) {
                     p.setEsHorda(true);
