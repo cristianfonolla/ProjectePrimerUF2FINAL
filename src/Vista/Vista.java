@@ -263,11 +263,11 @@ public class Vista extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         //Crear Personatges Wow
-        int i;
+//        int i;
+//
+//        for (i = 0; i < array.length && array[i].isOmplit(); i++);
 
-        for (i = 0; i < array.length && array[i].isOmplit(); i++);
-
-        if (i < array.length) {
+        if (ultimaPosicio < array.length) {
 
             /*
             Variable de permis per crear
@@ -284,19 +284,33 @@ public class Vista extends javax.swing.JFrame {
 
                 try {
 
-                    array[i].setNivell(Integer.valueOf(jTextField2.getText().trim()));
+//                    array[i].setNivell(Integer.valueOf(jTextField2.getText().trim()));
+//
+//                    array[i].setNom(jTextField1.getText().trim());
+//
+//                    array[i].setRaça(jTextField3.getText().trim());
+//
+//                    if (jRadioButton1.isSelected()) {
+//                        array[i].setEsHorda(true);
+//                    } else if (jRadioButton2.isSelected()) {
+//                        array[i].setEsHorda(false);
+//                    }
+//
+//                    array[i].setOmplit(true);
+                    array[ultimaPosicio].setNivell(Integer.valueOf(jTextField2.getText().trim()));
 
-                    array[i].setNom(jTextField1.getText().trim());
+                    array[ultimaPosicio].setNom(jTextField1.getText().trim());
 
-                    array[i].setRaça(jTextField3.getText().trim());
+                    array[ultimaPosicio].setRaça(jTextField3.getText().trim());
 
                     if (jRadioButton1.isSelected()) {
-                        array[i].setEsHorda(true);
+                        array[ultimaPosicio].setEsHorda(true);
                     } else if (jRadioButton2.isSelected()) {
-                        array[i].setEsHorda(false);
+                        array[ultimaPosicio].setEsHorda(false);
                     }
 
-                    array[i].setOmplit(true);
+                    array[ultimaPosicio].setOmplit(true);
+
                     llimpiarCamps();
                 } catch (java.lang.NumberFormatException e) {
                     JOptionPane.showMessageDialog(null, "Has introduit un nivell incorrecte, "
@@ -307,6 +321,8 @@ public class Vista extends javax.swing.JFrame {
 
                 jButton1.setEnabled(false);
                 jButton3.setEnabled(false);
+                
+                ultimaPosicio++;
 
                 GUI_UF3.carregaTaula(new String[]{"Fila", "Nom", "Nivell", "Raça", "Horda"},
                         transformaDades(array), taula);
@@ -358,6 +374,8 @@ public class Vista extends javax.swing.JFrame {
 
         jButton1.setEnabled(false);
         jButton3.setEnabled(false);
+
+        ultimaPosicio--;
 
         GUI_UF3.carregaTaula(new String[]{"Fila", "Nom", "Nivell", "Raça", "Horda"},
                 transformaDades(array), taula);
@@ -412,13 +430,14 @@ public class Vista extends javax.swing.JFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
 
         try {
-            int i;
-
-            for (i = 0; i < array.length && array[i].isOmplit(); i++);
+//            int i;
+//
+//            for (i = 0; i < array.length && array[i].isOmplit(); i++);
 
             PersonatgesWow p = (PersonatgesWow) jComboBox1.getSelectedItem();
             p.setOmplit(true);
-            array[i] = p;
+//            array[i] = p;
+            array[ultimaPosicio] = p;
 
             for (int k = jComboBox1.getSelectedIndex(); k < arrayBorrat.length - 1; k++) {
 
@@ -432,6 +451,8 @@ public class Vista extends javax.swing.JFrame {
                 jButton5.setEnabled(false);
                 jComboBox1.setEnabled(false);
             }
+
+            ultimaPosicio++;
 
             plenarComboBox();
 
