@@ -74,7 +74,13 @@ public class PersonatgesWow implements Serializable {
 
     @Override
     public String toString() {
-        return "PersonatgesWow{" + "nom=" + nom + ", nivell=" + nivell + ", ra\u00e7a=" + raça + ", esHorda=" + esHorda + ", omplit=" + omplit + '}';
+
+        if (esHorda) {
+            return nom + ", " + nivell + ", " + raça + ", " + "és Horda!";
+        } else {
+            return nom + ", " + nivell + ", " + raça + ", " + "és Aliança!";
+        }
+
     }
 
 }
