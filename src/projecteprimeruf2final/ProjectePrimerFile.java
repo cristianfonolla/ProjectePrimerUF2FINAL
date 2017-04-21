@@ -90,7 +90,6 @@ public class ProjectePrimerFile {
         arrayCapacitat = props.getProperty("array.cap");
 
         array = new PersonatgesWow[Integer.valueOf(arrayCapacitat)];
-        System.out.println(array.length);
 
         return array;
     }
