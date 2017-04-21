@@ -43,20 +43,29 @@ public class Main {
 
                     if (vistaPass.getjTextField2().getText().equals(passwd) && vistaPass.getjTextField1().getText().equals(nomUser)) {
 
+                        vistaPass.getjTextField1().setText("");
+                        vistaPass.getjTextField2().setText("");
                         vistaPass.setVisible(false);
                         vista.setVisible(true);
 
                     } else {
-                        
+
                         JOptionPane.showMessageDialog(null, "Error Usuari o Contrasenya INCORRECTES!");
 
                     }
 
                 }
+                if (actionEvent.getSource().equals(vista.getjButton6())) {
+                    vista.setVisible(false);
+                    vistaPass.setVisible(true);
+
+                }
+
             }
         };
 
         vistaPass.getjButton1().addActionListener(actionListener);
+        vista.getjButton6().addActionListener(actionListener);
 
     }
 }
