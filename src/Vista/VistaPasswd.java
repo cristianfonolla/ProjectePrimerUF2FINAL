@@ -162,7 +162,7 @@ public class VistaPasswd extends javax.swing.JFrame {
         } catch (IOException e) {
             System.err.println("Error");
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(null, "Introdueix un número");
+            JOptionPane.showMessageDialog(null, "Introdueix un número ABORTANT");
             System.exit(0);
         } finally {
 
