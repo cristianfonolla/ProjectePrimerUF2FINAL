@@ -7,7 +7,10 @@ package Vista;
 
 import ClasseProjecte.PersonatgesWow;
 import static Vista.GUI_UF3.transformaDades;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import projecteprimeruf2final.ProjectePrimerFile;
@@ -28,7 +31,7 @@ public class Vista extends javax.swing.JFrame {
     /**
      * Creates new form Vista
      */
-    public Vista() {
+    public Vista() throws IOException {
         initComponents();
         initComponentsMeu();
     }
@@ -314,14 +317,14 @@ public class Vista extends javax.swing.JFrame {
                     llimpiarCamps();
                 } catch (java.lang.NumberFormatException e) {
                     JOptionPane.showMessageDialog(null, "Has introduit un nivell incorrecte, "
-                            + "introdueix-ne un de correcte (número enter positiu)");
+                            + "introdueix-ne un de correcte (número enter positiu no més gran que )" + Integer.MAX_VALUE);
                 } catch (ArrayIndexOutOfBoundsException ex) {
                     JOptionPane.showMessageDialog(null, "Borra primer el Personatge creat, o augmenta l'array");
                 }
 
                 jButton1.setEnabled(false);
                 jButton3.setEnabled(false);
-                
+
                 ultimaPosicio++;
 
                 GUI_UF3.carregaTaula(new String[]{"Fila", "Nom", "Nivell", "Raça", "Horda"},
@@ -465,7 +468,8 @@ public class Vista extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void initComponentsMeu() {
+    private void initComponentsMeu() throws IOException {
+
         ProjectePrimerFile.inicialitzarVariables();
 
         GUI_UF3.carregaTaula(new String[]{"Fila", "Nom", "Nivell", "Raça", "Horda"},
@@ -519,7 +523,11 @@ public class Vista extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Vista().setVisible(true);
+                try {
+                    new Vista().setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(Vista.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Properties;
 import java.util.Scanner;
 
 /**
@@ -30,6 +31,10 @@ public class ProjectePrimerFile {
 
     private static File f = new File("personatgesWow.db");
 
+    private static File file = new File("config");
+
+    private static String arrayCapacitat;
+
     public static PersonatgesWow[] getArray() {
         return array;
     }
@@ -37,7 +42,7 @@ public class ProjectePrimerFile {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         inicialitzarVariables();
         do {
@@ -255,7 +260,7 @@ public class ProjectePrimerFile {
         }
     }
 
-    public static void inicialitzarVariables() {
+    public static void inicialitzarVariables() throws IOException {
 
         //Índex per recòrrer l'array
         int i = 0;
@@ -315,6 +320,36 @@ public class ProjectePrimerFile {
             array[i] = new PersonatgesWow();
             array[i].setOmplit(false);
         }
+
+        Properties props = new Properties();
+        FileInputStream in = null;
+
+        if (!f.exists()) {
+            f.createNewFile();
+
+        }
+
+        try {
+            in = new FileInputStream("config");
+            props.load(in);
+
+        } catch (IOException ex) {
+
+            System.out.println("No hem pogut carregar l'arxiu de propietats!!");
+
+        } finally {
+
+            try {
+                if (in != null) {
+                    in.close();
+                }
+            } catch (IOException ex) {
+                System.out.println("Error al tancar l'arxiu de propietats!!");
+            }
+        }
+
+        arrayCapacitat = props.getProperty("array.cap");
+
     }
 
     private static boolean opcioFinal() {
