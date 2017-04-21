@@ -29,8 +29,6 @@ public class Main {
         vistaPass = new VistaPasswd();
         passwd = vistaPass.getPasswd();
         nomUser = vistaPass.getNomUser();
-        System.out.println(passwd);
-        System.out.println(nomUser);
         vista.setVisible(false);
         vistaPass.setVisible(true);
 
@@ -49,7 +47,9 @@ public class Main {
                         vista.setVisible(true);
 
                     } else {
+                        
                         JOptionPane.showMessageDialog(null, "Error Usuari o Contrasenya INCORRECTES!");
+
                     }
 
                 }
