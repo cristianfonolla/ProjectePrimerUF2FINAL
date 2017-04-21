@@ -8,7 +8,6 @@ package Vista;
 import ClasseProjecte.PersonatgesWow;
 import static Vista.GUI_UF3.transformaDades;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;

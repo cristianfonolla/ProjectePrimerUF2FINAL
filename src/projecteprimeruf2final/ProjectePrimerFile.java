@@ -16,6 +16,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Properties;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -25,8 +27,6 @@ public class ProjectePrimerFile {
 
     public static final int MAXPERSONATGES = 2000;
 
-    private static PersonatgesWow[] array = new PersonatgesWow[MAXPERSONATGES];
-
     private static int opcio = 0;
 
     private static File f = new File("personatgesWow.db");
@@ -34,6 +34,8 @@ public class ProjectePrimerFile {
     private static File file = new File("config");
 
     private static String arrayCapacitat;
+
+    private static PersonatgesWow[] array = inicialitzarArray();
 
     public static PersonatgesWow[] getArray() {
         return array;
@@ -43,13 +45,54 @@ public class ProjectePrimerFile {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
-
+        inicialitzarArray();
         inicialitzarVariables();
+
         do {
             demanarOpcio();
             tractarOpcio();
         } while (!opcioFinal());
 
+    }
+
+    private static PersonatgesWow[] inicialitzarArray() {
+
+        Properties props = new Properties();
+        FileInputStream in = null;
+
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException ex) {
+                Logger.getLogger(ProjectePrimerFile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        try {
+            in = new FileInputStream("config");
+            props.load(in);
+
+        } catch (IOException ex) {
+
+            System.out.println("No hem pogut carregar l'arxiu de propietats!!");
+
+        } finally {
+
+            try {
+                if (in != null) {
+                    in.close();
+                }
+            } catch (IOException ex) {
+                System.out.println("Error al tancar l'arxiu de propietats!!");
+            }
+        }
+
+        arrayCapacitat = props.getProperty("array.cap");
+
+        array = new PersonatgesWow[Integer.valueOf(arrayCapacitat)];
+        System.out.println(array.length);
+
+        return array;
     }
 
     private static void introduirPersonatge() {
