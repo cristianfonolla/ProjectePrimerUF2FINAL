@@ -69,7 +69,7 @@ public class ProjectePrimerFile {
         }
 
         try {
-            in = new FileInputStream("config");
+            in = new FileInputStream("configArray");
             props.load(in);
 
         } catch (IOException ex) {
@@ -90,7 +90,7 @@ public class ProjectePrimerFile {
         arrayCapacitat = props.getProperty("array.cap");
 
         array = new PersonatgesWow[Integer.valueOf(arrayCapacitat)];
-
+        System.out.println(array.length);
         return array;
     }
 
