@@ -87,6 +87,11 @@ public class ProjectePrimerFile {
             }
         }
 
+        /**
+         *
+         * Aqui instanciem l'array amb la capacitat dita per la vista anterior.
+         *
+         */
         arrayCapacitat = props.getProperty("array.cap");
 
         array = new PersonatgesWow[Integer.valueOf(arrayCapacitat)];

@@ -21,6 +21,12 @@ import projecteprimeruf2final.ProjectePrimerFile;
  */
 public class Vista extends javax.swing.JFrame {
 
+    /**
+     *
+     * Instancio dos arrays, un l'agafem del fitxer ProjectePrimerFile i l'altre
+     * servirà per als Personatges esborrats.
+     *
+     */
     int filasel = -1;
     int j;
     static PersonatgesWow[] array = ProjectePrimerFile.getArray();
@@ -230,6 +236,12 @@ public class Vista extends javax.swing.JFrame {
 
     private void taulaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_taulaMouseClicked
 
+        /**
+         *
+         * Aqui activem i desactivem els botons de la vista per a que sigui
+         * correcte depen de el que faigui l'usuari.
+         *
+         */
         filasel = taula.getSelectedRow();
 
         if (filasel != -1) {
@@ -582,6 +594,11 @@ public class Vista extends javax.swing.JFrame {
 
     public static int ultimaPosicioOcupada() {
 
+        /**
+         *
+         * El metode serveix per calcular l'ultima posicio de l'array!
+         *
+         */
         int i;
 
         for (i = 0; i < array.length && array[i].isOmplit(); i++);
@@ -597,7 +614,5 @@ public class Vista extends javax.swing.JFrame {
     public void setjButton6(JButton jButton6) {
         this.jButton6 = jButton6;
     }
-    
-    
 
 }

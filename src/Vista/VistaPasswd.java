@@ -23,6 +23,8 @@ import projecteprimeruf2final.ProjectePrimerFile;
 /**
  *
  * @author cristian
+ *
+ * Vista de Login del Projecte Cristian Fonollà Prats
  */
 public class VistaPasswd extends javax.swing.JFrame {
 
@@ -141,6 +143,20 @@ public class VistaPasswd extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+        /**
+         *
+         * El següent codi el que fa és llegir el número que hem posat a
+         * l'apartat de canviar de tamany l'array, comprova si es un número
+         * correcte i amb el bufferedWriter que serveix per escriure a un fitxer
+         * (el vaig trobar per la API) escriu al fitxer el número i com és
+         * lògic, per aplicar els canvis s'ha de reiniciar el programa per
+         * tornar a instanciar l'array.
+         *
+         * Si vas al fitxer ProjectePrimerFile.java, a la línea 95, és on
+         * instanciem l'array amb el número posat a la vista aquesta.
+         *
+         */
         BufferedWriter bw = null;
         try {
 
@@ -239,6 +255,12 @@ public class VistaPasswd extends javax.swing.JFrame {
 
     private void initComponentsMeu() throws IOException {
 
+        /**
+         *
+         * Aqui creem el fitxer de configuració i llegim el usuari i contrasenya
+         * per comprovar si son correctes o no:
+         *
+         */
         Properties props = new Properties();
         FileInputStream in = null;
 
@@ -265,6 +287,7 @@ public class VistaPasswd extends javax.swing.JFrame {
             }
         }
 
+        //Llegir pass i user sobre el fitxer de configuracio.
         passwd = props.getProperty("file.pass");
         nomUser = props.getProperty("file.user");
 
